@@ -9,10 +9,12 @@ import {TodoItem} from "./todoItem";
 })
 export class AppComponent {
 
+  showComplete: boolean = false;
+
   private list = new TodoList("Eren", [
     new TodoItem("Go for run", false),
     new TodoItem("Get flowers", false),
-    new TodoItem("Collect tickets", true),
+    new TodoItem("Collect tickets", false),
   ]);
 
   get username(): string {
@@ -25,6 +27,13 @@ export class AppComponent {
   }
 
   get items(): readonly TodoItem[] {
-    return this.list.items;
+    return this.list.items
+      .filter(item => this.showComplete || !item.complete);
+  }
+
+  addItem(newItem: string) {
+    if (newItem != "") {
+      this.list.addItem(newItem);
+    }
   }
 }
